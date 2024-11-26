@@ -20,5 +20,5 @@ public class ItemInit {
 
     // Creates a new BlockItem with the id "testmod:example_block", combining the namespace and path
     public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", BlockInit.EXAMPLE_BLOCK);
-    public static final DeferredItem<BlockItem> GENERATOR_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("generator_block", BlockInit.GENERATOR_BLOCK);
+    public static final DeferredItem<BlockItem> GENERATOR_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("generator", BlockInit.GENERATOR_BLOCK);
 }

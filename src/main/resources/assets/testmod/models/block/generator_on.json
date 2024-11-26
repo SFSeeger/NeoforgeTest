@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "testmod:block/generator_front_on",
+    "side": "testmod:block/generator_side",
+    "top": "testmod:block/generator_top",
+    "bottom": "minecraft:block/iron_block"
+  }
+}

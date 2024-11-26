@@ -14,4 +14,7 @@ public class TestModEnergyStorage extends EnergyStorage {
     public void setEnergy(int energy){
         this.energy = Math.min(energy, this.getMaxEnergyStored());
     }
+    public void setMaxEnergy(int maxEnergy){
+        this.capacity = maxEnergy;
+    }
 }

@@ -13,7 +13,7 @@ public class BlockEntityInit {
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, TestMod.MODID);
 
     public static final Supplier<BlockEntityType<GeneratorBlockEntity>> GENERATOR_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register(
-            "my_block_entity",
+            "generator_block_entity",
             // The block entity type.
             () -> BlockEntityType.Builder.of(
                     GeneratorBlockEntity::new,

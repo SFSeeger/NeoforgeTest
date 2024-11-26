@@ -19,5 +19,5 @@ public class BlockInit {
     public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.registerSimpleBlock("example_block", Properties.of().mapColor(MapColor.STONE));
 
     public static final DeferredBlock<GeneratorBlock> GENERATOR_BLOCK =
-            BLOCKS.register("generator_block", GeneratorBlock::new);
+            BLOCKS.register("generator", GeneratorBlock::new);
 }

@@ -51,6 +51,9 @@ public class TestMod
         // Register the Deferred Register to the mod event bus so items get registered
         ItemInit.ITEMS.register(modEventBus);
 
+        MenuInit.MENUS.register(modEventBus);
+        modEventBus.addListener(ScreenInit::registerScreens);
+
         // Register the Deferred Register to the mod event bus so tabs get registered
         TestModItemGroupInit.CREATIVE_MODE_TABS.register(modEventBus);
 

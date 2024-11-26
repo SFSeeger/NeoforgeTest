@@ -23,5 +23,6 @@ public class TestModItemGroupInit {
                 output.accept(ItemInit.EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
                 output.accept(ItemInit.EXAMPLE_BLOCK_ITEM.get());
                 output.accept(ItemInit.TEST_ITEM.get());
+                output.accept(ItemInit.GENERATOR_BLOCK_ITEM.get());
             }).build());
 }
