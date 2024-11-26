@@ -8,7 +8,6 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import static io.github.sfseeger.testmod.TestMod.MODID;
-import static io.github.sfseeger.testmod.core.init.BlockInit.EXAMPLE_BLOCK;
 
 public class ItemInit {
     // Create a Deferred Register to hold Items which will all be registered under the "testmod" namespace
@@ -20,6 +19,6 @@ public class ItemInit {
     public static final DeferredItem<Item> TEST_ITEM = ITEMS.registerItem("test_item", TestItem::new);
 
     // Creates a new BlockItem with the id "testmod:example_block", combining the namespace and path
-    public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", EXAMPLE_BLOCK);
-
+    public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", BlockInit.EXAMPLE_BLOCK);
+    public static final DeferredItem<BlockItem> GENERATOR_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("generator_block", BlockInit.GENERATOR_BLOCK);
 }

@@ -1,8 +1,10 @@
 package io.github.sfseeger.testmod;
 
-import io.github.sfseeger.testmod.core.init.BlockInit;
-import io.github.sfseeger.testmod.core.init.ItemInit;
-import io.github.sfseeger.testmod.core.init.TestModItemGroupInit;
+import io.github.sfseeger.testmod.common.blockentities.GeneratorBlockEntity;
+import io.github.sfseeger.testmod.common.blocks.GeneratorBlock;
+import io.github.sfseeger.testmod.core.init.*;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -45,8 +47,10 @@ public class TestMod
 
         // Register the Deferred Register to the mod event bus so blocks get registered
         BlockInit.BLOCKS.register(modEventBus);
+        BlockEntityInit.BLOCK_ENTITY_TYPES.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
         ItemInit.ITEMS.register(modEventBus);
+
         // Register the Deferred Register to the mod event bus so tabs get registered
         TestModItemGroupInit.CREATIVE_MODE_TABS.register(modEventBus);
 
@@ -57,10 +61,12 @@ public class TestMod
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(CapabilityInit::registerCapabilities);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
+
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
