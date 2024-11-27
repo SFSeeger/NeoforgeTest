@@ -33,16 +33,13 @@ public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
 
         // Render energy bar
         int energyHeight = (int) (this.menu.getEnergyProgress() * 49f);
-        pGuiGraphics.blit(GUI_TEXTURE, x + 8, y + 17 + (48 -energyHeight), 176, 48 - energyHeight, 16, energyHeight);
+        pGuiGraphics.blit(GUI_TEXTURE, x + 8, y + 17 + (49 - energyHeight), 176, 48 - energyHeight, 16, energyHeight);
 
         // Render burn time
         int burnTimeHeight = (int) (this.menu.getBurnProgress() * 14f);
-        //LOGGER.info("Burn time height: " + burnTimeHeight);
         if(this.menu.isLit()){
             pGuiGraphics.blit(GUI_TEXTURE, x + 81, y + 23 + burnTimeHeight, 176, 49 + burnTimeHeight, 14, 14 - burnTimeHeight);
         }
-        pGuiGraphics.drawString(this.font, "Energy: " + energyHeight, x + 8, y + 12, Color.WHITE.getRGB());
-        pGuiGraphics.drawString(this.font, "Max Burn Time: " + burnTimeHeight, x + 8, y + 18, Color.WHITE.getRGB());
     }
 
     @Override

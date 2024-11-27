@@ -1,6 +1,7 @@
 package io.github.sfseeger.testmod.core.init;
 
 import io.github.sfseeger.testmod.common.items.TestItem;
+import io.github.sfseeger.testmod.common.items.ToasterItem;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -21,4 +22,7 @@ public class ItemInit {
     // Creates a new BlockItem with the id "testmod:example_block", combining the namespace and path
     public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", BlockInit.EXAMPLE_BLOCK);
     public static final DeferredItem<BlockItem> GENERATOR_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("generator", BlockInit.GENERATOR_BLOCK);
+    public static final DeferredItem<BlockItem> FUNKY_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("funky_block", BlockInit.FUNKY_BLOCK);
+    public static final DeferredItem<ToasterItem> TOASTER_BLOCK_ITEM = ITEMS.register("toaster",
+                                                                                                   ToasterItem::new);
 }

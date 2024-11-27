@@ -23,7 +23,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class GeneratorBlockEntity extends BlockEntity {
-    private static final int CAPACITY = 10000;
+    public static final int CAPACITY = 10000;
     private static final int MAX_RECEIVE = 1000;
     private static final int MAX_EXTRACT = 1000;
     private static final int ENERGY_PER_TICK = 10;
@@ -36,9 +36,8 @@ public class GeneratorBlockEntity extends BlockEntity {
         public int get(int pIndex) {
             return switch (pIndex) {
                 case 0 -> energyStorage.getEnergyStored();
-                case 1 -> energyStorage.getMaxEnergyStored();
-                case 2 -> burnTimeRemaining;
-                case 3 -> maxBurnTime;
+                case 1 -> burnTimeRemaining;
+                case 2 -> maxBurnTime;
                 default -> 0;
             };
         }
@@ -47,15 +46,14 @@ public class GeneratorBlockEntity extends BlockEntity {
         public void set(int pIndex, int pValue) {
             switch (pIndex) {
                 case 0 -> energyStorage.setEnergy(pValue);
-                case 1 -> energyStorage.setMaxEnergy(pValue);
-                case 2 -> burnTimeRemaining = pValue;
-                case 3 -> maxBurnTime = pValue;
+                case 1 -> burnTimeRemaining = pValue;
+                case 2 -> maxBurnTime = pValue;
             }
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return 3;
         }
     };
 
@@ -67,10 +65,12 @@ public class GeneratorBlockEntity extends BlockEntity {
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
             handleFuelInsertion(getStackInSlot(slot));
+            setChanged();
         }
     };
 
     private BlockCapability<IItemHandler, @Nullable Direction> itemCapability;
+
     public GeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.GENERATOR_BLOCK_ENTITY.get(), pos, state);
         this.energyStorage = new TestModEnergyStorage(CAPACITY, MAX_RECEIVE, MAX_EXTRACT);
@@ -82,7 +82,7 @@ public class GeneratorBlockEntity extends BlockEntity {
     }
 
     public void invalidCapability() {
-        if(level != null) {
+        if (level != null) {
             level.invalidateCapabilities(worldPosition);
         }
     }
@@ -104,20 +104,20 @@ public class GeneratorBlockEntity extends BlockEntity {
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, GeneratorBlockEntity blockEntity) {
-        if(!level.isClientSide){
+        if (!level.isClientSide) {
             blockEntity.tickInternal(level, pos, state);
         }
     }
 
-    public void tickInternal(Level level, BlockPos pos, BlockState state){
-        if(energyStorage.getEnergyStored() == energyStorage.getMaxEnergyStored()) {
+    public void tickInternal(Level level, BlockPos pos, BlockState state) {
+        if (energyStorage.getEnergyStored() == energyStorage.getMaxEnergyStored()) {
             return;
         }
-        if(burnTimeRemaining > 0){
+        if (burnTimeRemaining > 0) {
             burnTimeRemaining--;
             energyStorage.receiveEnergy(GeneratorBlockEntity.ENERGY_PER_TICK, false);
         }
-        if(burnTimeRemaining == 0 && !itemStackHandler.getStackInSlot(0).isEmpty()){
+        if (burnTimeRemaining == 0 && !itemStackHandler.getStackInSlot(0).isEmpty()) {
             handleFuelInsertion(itemStackHandler.getStackInSlot(0));
         }
         level.setBlock(pos, state.setValue(GeneratorBlock.LIT, isLit()), 3);
@@ -125,12 +125,11 @@ public class GeneratorBlockEntity extends BlockEntity {
     }
 
     private void handleFuelInsertion(ItemStack stack) {
-        if(!stack.isEmpty() && burnTimeRemaining == 0){
+        if (!stack.isEmpty() && burnTimeRemaining == 0) {
             int burnTime = stack.getBurnTime(null);
-            if(burnTime > 0){
+            if (burnTime > 0) {
                 burnTimeRemaining = maxBurnTime = burnTime;
                 stack.shrink(1);
-                setChanged();
                 invalidCapability();
             }
         }
@@ -140,17 +139,28 @@ public class GeneratorBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         super.saveAdditional(pTag, pRegistries);
         pTag.putInt("Energy", energyStorage.getEnergyStored());
+        CompoundTag fuelTag = new CompoundTag();
+        fuelTag.putInt("BurnTime", burnTimeRemaining);
+        fuelTag.putInt("MaxBurnTime", maxBurnTime);
+        pTag.put("Fuel", fuelTag);
+        pTag.put("Inventory", itemStackHandler.serializeNBT(pRegistries));
     }
 
     @Override
     protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         super.loadAdditional(pTag, pRegistries);
-        if(pTag.contains("Energy")) {
-            energyStorage.setEnergy(pTag.getInt("Energy"));
+        energyStorage.setEnergy(pTag.getInt("Energy"));
+        if (pTag.contains("Inventory")) {
+            itemStackHandler.deserializeNBT(pRegistries, pTag.getCompound("Inventory"));
+        }
+        if (pTag.contains("Fuel")) {
+            CompoundTag fuelTag = pTag.getCompound("Fuel");
+            burnTimeRemaining = fuelTag.getInt("BurnTime");
+            maxBurnTime = fuelTag.getInt("MaxBurnTime") == 0 ? burnTimeRemaining : fuelTag.getInt("MaxBurnTime");
         }
     }
 
     public AbstractContainerMenu createMenu(int pId, Inventory pPlayer) {
-        return new GeneratorMenu(pId, pPlayer, this.itemStackHandler, this.dataAccess,  ContainerLevelAccess.NULL);
+        return new GeneratorMenu(pId, pPlayer, this.itemStackHandler, this.dataAccess, ContainerLevelAccess.NULL);
     }
 }

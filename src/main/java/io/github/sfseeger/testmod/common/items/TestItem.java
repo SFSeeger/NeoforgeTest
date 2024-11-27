@@ -30,7 +30,10 @@ public class TestItem extends Item {
         level.setBlock(pos, Blocks.DIAMOND_BLOCK.defaultBlockState(), 3);
         level.playLocalSound(pos, SoundEvents.TOTEM_USE, SoundSource.PLAYERS,1.0f, 1.0f, true);
         for (int i = 0; i < 8; i++) {
-            level.addParticle(ParticleTypes.TOTEM_OF_UNDYING, pos.getX(), pos.getY(), pos.getZ()+0.5d, 0, 0, 0.4d);
+            int xMod = i % 2 == 0 ? 1 : -1;
+            int yMod = i < 4 ? 1 : -1;
+            level.addParticle(ParticleTypes.TOTEM_OF_UNDYING, pos.getX() + 0.5f, pos.getY(), pos.getZ() + 0.5f,
+                              0.5*xMod, 0.5d, 0.5*yMod);
         }
 
         pContext.getItemInHand().shrink(1);

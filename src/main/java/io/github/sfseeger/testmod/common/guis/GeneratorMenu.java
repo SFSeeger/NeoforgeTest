@@ -1,5 +1,6 @@
 package io.github.sfseeger.testmod.common.guis;
 
+import io.github.sfseeger.testmod.common.blockentities.GeneratorBlockEntity;
 import io.github.sfseeger.testmod.core.init.BlockInit;
 import io.github.sfseeger.testmod.core.init.MenuInit;
 import net.minecraft.network.FriendlyByteBuf;
@@ -14,14 +15,13 @@ import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class GeneratorMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
-    private static final int CONTAINER_DATA_SIZE = 4;
+    private static final int CONTAINER_DATA_SIZE = 3;
     private final ContainerData data;
 
     public static final int FUEL_SLOT = 0;
     public static final int ENERGY_STORED_DATA_SLOT = 0;
-    public static final int MAX_ENERGY_DATA_SLOT = 1;
-    public static final int BURN_TIME_REMAINING_DATA_SLOT = 2;
-    public static final int MAX_BURN_TIME_DATA_SLOT = 3;
+    public static final int BURN_TIME_REMAINING_DATA_SLOT = 1;
+    public static final int MAX_BURN_TIME_DATA_SLOT = 2;
 
 
 
@@ -57,8 +57,7 @@ public class GeneratorMenu extends AbstractContainerMenu {
 
     public float getEnergyProgress() {
         int stored = this.data.get(ENERGY_STORED_DATA_SLOT);
-        int maxEnergyStored = this.data.get(MAX_ENERGY_DATA_SLOT);
-        return maxEnergyStored != 0 && stored != 0 ? Mth.clamp((float) stored / (float) maxEnergyStored, 0.0F, 1.0F) : 0.0F;
+        return stored != 0 ? Mth.clamp((float) stored / (float) GeneratorBlockEntity.CAPACITY, 0.0F, 1.0F) : 0.0F;
     }
 
     public float getBurnProgress() {
