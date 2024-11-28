@@ -1,8 +1,8 @@
 package io.github.sfseeger.testmod.client.screens;
 
-import com.mojang.logging.LogUtils;
 import io.github.sfseeger.testmod.TestMod;
 import io.github.sfseeger.testmod.common.guis.GeneratorMenu;
+import io.github.sfseeger.testmod.util.GUIUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -10,35 +10,40 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.slf4j.Logger;
-
-import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
-    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(TestMod.MODID, "textures/gui/container/generator/generator.png");
+    private static final ResourceLocation GUI_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(TestMod.MODID, "textures/gui/container/generator/generator.png");
 
-    private static final Logger LOGGER = LogUtils.getLogger();
+    private int uiX;
+    private int uiY;
 
     public GeneratorScreen(GeneratorMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
 
+    @Override
+    protected void init() {
+        super.init();
+        this.uiX = (this.width - this.imageWidth) / 2;
+        this.uiY = (this.height - this.imageHeight) / 2;
+    }
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        int x = (this.width - this.imageWidth) / 2;
-        int y = (this.height - this.imageHeight) / 2;
-        pGuiGraphics.blit(GUI_TEXTURE, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        pGuiGraphics.blit(GUI_TEXTURE, uiX, uiY, 0, 0, this.imageWidth, this.imageHeight);
 
         // Render energy bar
         int energyHeight = (int) (this.menu.getEnergyProgress() * 49f);
-        pGuiGraphics.blit(GUI_TEXTURE, x + 8, y + 17 + (49 - energyHeight), 176, 48 - energyHeight, 16, energyHeight);
+        pGuiGraphics.blit(GUI_TEXTURE, uiX + 8, uiY + 17 + (49 - energyHeight), 176, 48 - energyHeight, 16,
+                          energyHeight);
 
         // Render burn time
         int burnTimeHeight = (int) (this.menu.getBurnProgress() * 14f);
-        if(this.menu.isLit()){
-            pGuiGraphics.blit(GUI_TEXTURE, x + 81, y + 23 + burnTimeHeight, 176, 49 + burnTimeHeight, 14, 14 - burnTimeHeight);
+        if (this.menu.isLit()) {
+            pGuiGraphics.blit(GUI_TEXTURE, uiX + 81, uiY + 23 + burnTimeHeight, 176, 49 + burnTimeHeight, 14,
+                              14 - burnTimeHeight);
         }
     }
 
@@ -50,7 +55,12 @@ public class GeneratorScreen extends AbstractContainerScreen<GeneratorMenu> {
     }
 
     @Override
-    protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        super.renderLabels(pGuiGraphics, pMouseX, pMouseY);
+    protected void renderTooltip(GuiGraphics pGuiGraphics, int pX, int pY) {
+        super.renderTooltip(pGuiGraphics, pX, pY);
+
+        if (GUIUtil.isMouseInBounds(uiX + 8, uiY + 17, 16, 49, pX, pY)) {
+            pGuiGraphics.renderTooltip(this.font, Component.literal(
+                    this.menu.getEnergy() + " / " + this.menu.getMaxEnergy() + " RF"), pX, pY);
+        }
     }
 }

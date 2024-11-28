@@ -3,7 +3,6 @@ package io.github.sfseeger.testmod.common.guis;
 import io.github.sfseeger.testmod.common.blockentities.GeneratorBlockEntity;
 import io.github.sfseeger.testmod.core.init.BlockInit;
 import io.github.sfseeger.testmod.core.init.MenuInit;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -68,6 +67,14 @@ public class GeneratorMenu extends AbstractContainerMenu {
 
     public boolean isLit() {
         return this.data.get(BURN_TIME_REMAINING_DATA_SLOT) > 0;
+    }
+
+    public int getEnergy() {
+        return this.data.get(ENERGY_STORED_DATA_SLOT);
+    }
+
+    public int getMaxEnergy() {
+        return GeneratorBlockEntity.CAPACITY;
     }
 
     @Override

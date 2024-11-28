@@ -1,14 +1,7 @@
 package io.github.sfseeger.testmod;
 
-import io.github.sfseeger.testmod.common.blockentities.GeneratorBlockEntity;
-import io.github.sfseeger.testmod.common.blocks.GeneratorBlock;
-import io.github.sfseeger.testmod.core.init.*;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import org.slf4j.Logger;
-
 import com.mojang.logging.LogUtils;
-
+import io.github.sfseeger.testmod.core.init.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -25,6 +18,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(TestMod.MODID)
@@ -69,7 +63,6 @@ public class TestMod
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
-
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {

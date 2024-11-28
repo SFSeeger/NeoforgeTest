@@ -7,6 +7,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 public class CapabilityInit {
     public static void registerCapabilities(RegisterCapabilitiesEvent event)
     {
+        // GeneratorBlockEntity
         event.registerBlockEntity(
                 Capabilities.EnergyStorage.BLOCK,
                 BlockEntityInit.GENERATOR_BLOCK_ENTITY.get(),

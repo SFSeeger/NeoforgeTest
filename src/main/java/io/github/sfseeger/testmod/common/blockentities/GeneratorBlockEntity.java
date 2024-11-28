@@ -16,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -58,7 +57,10 @@ public class GeneratorBlockEntity extends BlockEntity {
     };
 
     private final TestModEnergyStorage energyStorage;
-    private BlockCapability<IEnergyStorage, @Nullable Direction> energyCapability;
+
+    public IEnergyStorage getEnergyStorage(@Nullable Direction side) {
+        return this.energyStorage;
+    }
 
     private final ItemStackHandler itemStackHandler = new ItemStackHandler(1) {
         @Override
@@ -67,18 +69,20 @@ public class GeneratorBlockEntity extends BlockEntity {
             handleFuelInsertion(getStackInSlot(slot));
             setChanged();
         }
+
+        @Override
+        public boolean isItemValid(int slot, ItemStack stack) {
+            return stack.getBurnTime(null) > 0;
+        }
     };
 
-    private BlockCapability<IItemHandler, @Nullable Direction> itemCapability;
+    public IItemHandler getItemHandler(@Nullable Direction side) {
+        return this.itemStackHandler;
+    }
 
     public GeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityInit.GENERATOR_BLOCK_ENTITY.get(), pos, state);
         this.energyStorage = new TestModEnergyStorage(CAPACITY, MAX_RECEIVE, MAX_EXTRACT);
-    }
-
-
-    public IEnergyStorage getEnergyStorage(@Nullable Direction side) {
-        return this.energyStorage;
     }
 
     public void invalidCapability() {
@@ -87,9 +91,6 @@ public class GeneratorBlockEntity extends BlockEntity {
         }
     }
 
-    public IItemHandler getItemHandler(@Nullable Direction side) {
-        return this.itemStackHandler;
-    }
 
     public int getBurnTimeRemaining() {
         return burnTimeRemaining;
