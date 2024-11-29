@@ -1,4 +1,4 @@
-package io.github.sfseeger.testmod.util;
+package io.github.sfseeger.testmod.core.util;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;

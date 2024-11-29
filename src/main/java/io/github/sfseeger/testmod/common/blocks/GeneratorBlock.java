@@ -2,7 +2,7 @@ package io.github.sfseeger.testmod.common.blocks;
 
 import io.github.sfseeger.testmod.common.blockentities.GeneratorBlockEntity;
 import io.github.sfseeger.testmod.core.init.BlockEntityInit;
-import io.github.sfseeger.testmod.util.InventoryUtil;
+import io.github.sfseeger.testmod.core.util.InventoryUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;

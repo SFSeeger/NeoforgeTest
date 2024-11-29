@@ -1,4 +1,4 @@
-package io.github.sfseeger.testmod.util;
+package io.github.sfseeger.testmod.core.util;
 
 public class GUIUtil {
     public static boolean isMouseInBounds(int x, int y, int width, int height, int mouseX, int mouseY) {

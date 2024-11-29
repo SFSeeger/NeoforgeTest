@@ -2,7 +2,7 @@ package io.github.sfseeger.testmod.client.screens;
 
 import io.github.sfseeger.testmod.TestMod;
 import io.github.sfseeger.testmod.common.guis.GeneratorMenu;
-import io.github.sfseeger.testmod.util.GUIUtil;
+import io.github.sfseeger.testmod.core.util.GUIUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;

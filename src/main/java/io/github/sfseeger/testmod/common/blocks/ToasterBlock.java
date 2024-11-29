@@ -47,13 +47,16 @@ public class ToasterBlock extends Block implements SimpleWaterloggedBlock, Entit
         );
     }
 
-    public VoxelShape makeShape() {
-        return Block.box(4, 0, 1, 12, 8, 15);
-    }
-
     @Override
-    protected VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return makeShape();
+    public @NotNull VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        Direction direction = pState.getValue(FACING);
+        VoxelShape shape = Block.box(4, 0, 1, 12, 8, 15);
+        VoxelShape shapeRotated = Block.box(1, 0, 4, 15, 8, 12);
+
+        return switch (direction) {
+            case EAST, WEST -> shapeRotated;
+            default -> shape;
+        };
     }
 
     @Override
@@ -67,7 +70,7 @@ public class ToasterBlock extends Block implements SimpleWaterloggedBlock, Entit
     }
 
     @Override
-    protected @NotNull BlockState mirror(BlockState pState, Mirror pMirror) {
+    protected @NotNull BlockState mirror(@NotNull BlockState pState, Mirror pMirror) {
         return super.rotate(pState, pMirror.getRotation(pState.getValue(FACING)));
     }
 

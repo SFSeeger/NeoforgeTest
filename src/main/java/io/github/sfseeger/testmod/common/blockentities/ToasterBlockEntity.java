@@ -30,8 +30,8 @@ public class ToasterBlockEntity extends BlockEntity {
         return this.itemHandler;
     }
 
-    private final int[] cookingProgress = new int[4];
-    private final int[] cookingTime = new int[4];
+    private final int[] cookingProgress = new int[NUM_SLOTS];
+    private final int[] cookingTime = new int[NUM_SLOTS];
     private final RecipeManager.CachedCheck<SingleRecipeInput, CampfireCookingRecipe> quickCheck =
             RecipeManager.createCheck(
                     RecipeType.CAMPFIRE_COOKING);
@@ -70,8 +70,8 @@ public class ToasterBlockEntity extends BlockEntity {
     public static void cookTick(Level pLevel, BlockPos pPos, BlockState pState, ToasterBlockEntity pBlockEntity) {
         boolean flag = false;
 
+        IItemHandler items = pBlockEntity.getItemHandler(null);
         for (int i = 0; i < ToasterBlockEntity.NUM_SLOTS; i++) {
-            IItemHandler items = pBlockEntity.getItemHandler(null);
             ItemStack itemstack = items.getStackInSlot(i);
             if (!itemstack.isEmpty()) {
                 flag = true;
