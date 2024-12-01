@@ -1,6 +1,7 @@
 package io.github.sfseeger.testmod.core.init;
 
 import io.github.sfseeger.testmod.TestMod;
+import io.github.sfseeger.testmod.common.blockentities.FunkyBlockEntity;
 import io.github.sfseeger.testmod.common.blockentities.GeneratorBlockEntity;
 import io.github.sfseeger.testmod.common.blockentities.ToasterBlockEntity;
 import net.minecraft.core.registries.Registries;
@@ -28,4 +29,13 @@ public class BlockEntityInit {
                             BlockInit.TOASTER_BLOCK.get()
                     ).build(null)
     );
+    public static final Supplier<BlockEntityType<FunkyBlockEntity>> FUNKY_BLOCK_ENTITY =
+            BLOCK_ENTITY_TYPES.register(
+                    "funky_block_entity",
+                    () -> BlockEntityType.Builder.of(
+                            FunkyBlockEntity::new,
+                            BlockInit.FUNKY_BLOCK.get()
+                    ).build(null)
+            );
 }
+

@@ -1,0 +1,6 @@
+{
+  "fragment": "testmod:funky",
+  "textures": {
+    "CustomTexture": "veil:textures/gui/item_shadow.png"
+  }
+}

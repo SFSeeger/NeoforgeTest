@@ -1,17 +1,16 @@
 package io.github.sfseeger.testmod.common.blocks;
 
 import io.github.sfseeger.testmod.common.blockentities.ToasterBlockEntity;
+import io.github.sfseeger.testmod.common.recipies.toaster.ToasterCookingRecipe;
 import io.github.sfseeger.testmod.core.init.BlockEntityInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -22,6 +21,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.FluidState;
@@ -38,12 +38,14 @@ import java.util.Optional;
 public class ToasterBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
     public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
     private static final Property<Boolean> WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final BooleanProperty COOKING = BooleanProperty.create("cooking");
 
     public ToasterBlock() {
         super(Properties.of().destroyTime(2.0f).sound(SoundType.METAL));
         registerDefaultState(stateDefinition.any()
                                      .setValue(FACING, Direction.NORTH)
                                      .setValue(WATERLOGGED, false)
+                                     .setValue(COOKING, false)
         );
     }
 
@@ -76,7 +78,7 @@ public class ToasterBlock extends Block implements SimpleWaterloggedBlock, Entit
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING, WATERLOGGED);
+        pBuilder.add(FACING, WATERLOGGED, COOKING);
     }
 
     @Override
@@ -92,6 +94,9 @@ public class ToasterBlock extends Block implements SimpleWaterloggedBlock, Entit
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState,
             BlockEntityType<T> type) {
+        if (pLevel.isClientSide) {
+            return null;
+        }
         return type == BlockEntityInit.TOASTER_BLOCK_ENTITY.get() ? (level, pos, state, blockEntity) -> {
             if (blockEntity instanceof ToasterBlockEntity toasterBlockEntity) {
                 ToasterBlockEntity.cookTick(level, pos, state, toasterBlockEntity);
@@ -116,11 +121,10 @@ public class ToasterBlock extends Block implements SimpleWaterloggedBlock, Entit
             Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if (pLevel.getBlockEntity(pPos) instanceof ToasterBlockEntity toasterBlockEntity) {
             ItemStack itemstack = pPlayer.getItemInHand(pHand);
-            Optional<RecipeHolder<CampfireCookingRecipe>> optional = toasterBlockEntity.getCookableRecipe(itemstack);
+            Optional<RecipeHolder<ToasterCookingRecipe>> optional = toasterBlockEntity.getCookableRecipe(itemstack);
             if (optional.isPresent()) {
                 if (!pLevel.isClientSide && toasterBlockEntity.placeFood(pPlayer, itemstack,
                                                                          optional.get().value().getCookingTime())) {
-                    pPlayer.awardStat(Stats.INTERACT_WITH_CAMPFIRE);
                     return ItemInteractionResult.SUCCESS;
                 }
 

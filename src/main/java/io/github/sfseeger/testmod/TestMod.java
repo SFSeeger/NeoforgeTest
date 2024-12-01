@@ -2,6 +2,8 @@ package io.github.sfseeger.testmod;
 
 import com.mojang.logging.LogUtils;
 import io.github.sfseeger.testmod.core.init.*;
+import io.github.sfseeger.testmod.core.init.recipes.RecipeSerializerInit;
+import io.github.sfseeger.testmod.core.init.recipes.RecipeTypeInit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -50,6 +52,10 @@ public class TestMod
 
         // Register the Deferred Register to the mod event bus so tabs get registered
         TestModItemGroupInit.CREATIVE_MODE_TABS.register(modEventBus);
+
+        // Register Recipe Serializers
+        RecipeTypeInit.RECIPE_TYPE.register(modEventBus);
+        RecipeSerializerInit.RECIPE_SERIALIZERS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (testmod) to respond directly to events.

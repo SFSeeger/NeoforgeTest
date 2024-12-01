@@ -1,6 +1,7 @@
 package io.github.sfseeger.testmod.core.util;
 
 import io.github.sfseeger.testmod.TestMod;
+import io.github.sfseeger.testmod.client.renderer.FunkyBlockEntityRenderer;
 import io.github.sfseeger.testmod.client.renderer.ToasterBlockEntityRenderer;
 import io.github.sfseeger.testmod.core.init.BlockEntityInit;
 import net.neoforged.api.distmarker.Dist;
@@ -15,6 +16,10 @@ public class ClientEventHandler {
         event.registerBlockEntityRenderer(
                 BlockEntityInit.TOASTER_BLOCK_ENTITY.get(),
                 ToasterBlockEntityRenderer::new
+        );
+        event.registerBlockEntityRenderer(
+                BlockEntityInit.FUNKY_BLOCK_ENTITY.get(),
+                FunkyBlockEntityRenderer::new
         );
     }
 }

@@ -85,12 +85,11 @@ public class GeneratorBlockEntity extends BlockEntity {
         this.energyStorage = new TestModEnergyStorage(CAPACITY, MAX_RECEIVE, MAX_EXTRACT);
     }
 
-    public void invalidCapability() {
+    public void invalidateCapability() {
         if (level != null) {
             level.invalidateCapabilities(worldPosition);
         }
     }
-
 
     public int getBurnTimeRemaining() {
         return burnTimeRemaining;
@@ -131,7 +130,7 @@ public class GeneratorBlockEntity extends BlockEntity {
             if (burnTime > 0) {
                 burnTimeRemaining = maxBurnTime = burnTime;
                 stack.shrink(1);
-                invalidCapability();
+                invalidateCapability();
             }
         }
     }

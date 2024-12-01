@@ -21,10 +21,10 @@ public class CapabilityInit {
         );
 
         // ToasterBlockEntity
-//        event.registerBlockEntity(
-//                Capabilities.ItemHandler.BLOCK,
-//                BlockEntityInit.TOASTER_BLOCK_ENTITY.get(),
-//                (blockEntity, side) -> blockEntity instanceof ToasterBlockEntity be ? be.getItemHandler(side) : null
-//        );
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                BlockEntityInit.TOASTER_BLOCK_ENTITY.get(),
+                (blockEntity, side) -> blockEntity instanceof ToasterBlockEntity be ? be.getItemHandler(side) : null
+        );
     }
 }
