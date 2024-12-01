@@ -23,6 +23,9 @@ public class ItemInit {
     public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", BlockInit.EXAMPLE_BLOCK);
     public static final DeferredItem<BlockItem> GENERATOR_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("generator", BlockInit.GENERATOR_BLOCK);
     public static final DeferredItem<BlockItem> FUNKY_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("funky_block", BlockInit.FUNKY_BLOCK);
-    public static final DeferredItem<ToasterItem> TOASTER_BLOCK_ITEM = ITEMS.register("toaster",
-                                                                                                   ToasterItem::new);
+    public static final DeferredItem<ToasterItem> TOASTER_BLOCK_ITEM = ITEMS.register("toaster", ToasterItem::new);
+    public static final DeferredItem<BlockItem> TEST_MULTI_BLOCK_ITEM =
+            ITEMS.registerSimpleBlockItem("test_multi_block",
+                                          BlockInit.TEST_MULTI_BLOCK);
+
 }

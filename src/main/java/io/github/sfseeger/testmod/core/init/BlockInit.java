@@ -2,6 +2,7 @@ package io.github.sfseeger.testmod.core.init;
 
 import io.github.sfseeger.testmod.common.blocks.FunkyBlock;
 import io.github.sfseeger.testmod.common.blocks.GeneratorBlock;
+import io.github.sfseeger.testmod.common.blocks.TestMultiBlock;
 import io.github.sfseeger.testmod.common.blocks.ToasterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -24,4 +25,7 @@ public class BlockInit {
 
     public static final DeferredBlock<FunkyBlock> FUNKY_BLOCK = BLOCKS.register("funky_block", FunkyBlock::new);
     public static final DeferredBlock<Block> TOASTER_BLOCK = BLOCKS.register("toaster", ToasterBlock::new);
+    public static final DeferredBlock<Block> TEST_MULTI_BLOCK =
+            BLOCKS.register("test_multi_block", TestMultiBlock::new);
+
 }
